@@ -44,6 +44,10 @@ p{margin:0 0 10px}
 .hero .steps{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 16px}
 .hero .steps span{border:1.5px solid var(--ink);border-radius:999px;padding:3px 10px;font-size:13px;font-weight:600;background:var(--paper)}
 .grp{margin:22px 0 10px}
+.dl{background:var(--coral-s);border:1.5px solid var(--ink);border-radius:18px;padding:14px 16px;margin:16px 0 0}
+.dl b{font-family:var(--display);font-size:20px;display:block;margin-bottom:2px}
+.dl p{margin:0 0 6px;font-size:15px}
+.dl .btn{margin-top:8px}
 .btn{font:inherit;font-weight:600;min-height:52px;padding:12px 18px;border-radius:14px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;width:100%;display:flex;gap:10px;align-items:center;justify-content:center}
 .btn.pri{background:var(--ink);color:var(--cream)}
 .btn.good{background:var(--teal-s)}
@@ -139,7 +143,23 @@ mark{background:var(--coral);color:var(--ink);border-radius:4px;padding:0 2px}
    w = woord, m = betekenis, s = voorbeeldzin (met het woord erin), syn = andere woorden
    ====================================================================== */
 const WEEKS = [
- { id:'w46', label:'Week 46', words:[
+ { id:'w46', label:'Week 46', deadline:'2026-11-19', words:[
+  {w:'authentiek', m:'Echt en oorspronkelijk; geen kopie of namaak.', s:'Dit is een authentiek Perzisch tapijt, geen kopie uit een fabriek.', syn:['echt','oorspronkelijk']},
+  {w:'beminnelijk', m:'Vriendelijk en aardig, zodat iedereen je graag mag.', s:'Onze nieuwe buurvrouw is zo beminnelijk dat iedereen binnen een dag dol op haar was.', syn:['innemend','vriendelijk']},
+  {w:'dartel', m:'Speels en springerig, vol vrolijke energie, zoals een jong dier.', s:'De lammetjes huppelden dartel door de wei, zomaar, van pure levenslust.', syn:['speels','uitgelaten']},
+  {w:'degelijk', m:'Stevig, goed gemaakt en betrouwbaar; gaat lang mee.', s:'Koop liever een degelijk bed dat tien jaar meegaat dan een goedkoop bed dat na een maand kraakt.', syn:['solide','stevig']},
+  {w:'elegant', m:'Sierlijk en stijlvol; met smaak en souplesse.', s:'Ze bewoog zo elegant over de dansvloer dat iedereen naar haar bleef kijken.', syn:['sierlijk','chic']},
+  {w:'expressief', m:'Je gevoelens duidelijk laten zien, met je gezicht, stem en gebaren.', s:'Ze is zo expressief dat je aan haar gezicht en handen meteen ziet wat ze voelt.', syn:['levendig','veelzeggend']},
+  {w:'fier', m:'Trots, met opgeheven hoofd.', s:'Ze stond fier op het podium, trots op alles wat ze had bereikt.', syn:['trots']},
+  {w:'flets', m:'Zonder kleur of kracht; bleek en saai.', s:'Na jaren in de zon waren de gordijnen flets geworden: de felle kleuren waren bijna weg.', syn:['bleek','kleurloos']},
+  {w:'gulzig', m:'Veel te veel willen, vooral eten; nooit genoeg krijgen.', s:'Hij at zo gulzig dat zijn bord leeg was voordat de anderen waren begonnen.', syn:['hebberig','vraatzuchtig']},
+  {w:'imponerend', m:'Maakt grote indruk; indrukwekkend.', s:'Het gebouw is imponerend: iedereen die binnenkomt blijft stilstaan van bewondering.', syn:['indrukwekkend','overweldigend']},
+  {w:'mysterieus', m:'Geheimzinnig; je begrijpt het niet maar wilt het wel weten.', s:'Er klonk \'s nachts een mysterieus geluid op zolder en niemand wist waar het vandaan kwam.', syn:['geheimzinnig','raadselachtig']},
+  {w:'nonchalant', m:'Los en zorgeloos, alsof het je niet kan schelen.', s:'Hij leunde nonchalant tegen de muur, zijn handen in zijn zakken, alsof er niets aan de hand was.', syn:['zorgeloos','achteloos']},
+  {w:'onstuimig', m:'Wild en heftig; vol onrust, bijvoorbeeld bij weer of gevoelens.', s:'De zee was onstuimig: golven sloegen over de pier en de boot schommelde wild.', syn:['woest','stormachtig']},
+  {w:'rusteloos', m:'Kan niet stilzitten; onrustig, zonder rust te vinden.', s:'Hij liep rusteloos heen en weer door de kamer, omdat hij de uitslag niet kon afwachten.', syn:['onrustig','ongedurig']},
+  {w:'sereen', m:'Heel kalm, helder en vredig.', s:'Het meer lag er sereen bij, zonder een rimpeling, in het zachte ochtendlicht.', syn:['kalm','vredig']},
+  {w:'spottend', m:'Je maakt iemand belachelijk, met een kleinerende grap of lach.', s:'Met een spottend lachje zei hij dat ze het nooit zou halen.', syn:['honend','sarcastisch']},
   {w:'statig', m:'Rustig en deftig, met veel allure en zonder haast.', s:'De oude generaal liep statig over het plein, met rechte rug en kleine, langzame stappen.', syn:['deftig','plechtig']},
   {w:'straf', m:'Streng en hard. Ook: flink of ongelooflijk.', s:'De trainer was heel straf: wie te laat kwam, moest een extra ronde rennen.', syn:['streng','fors']},
   {w:'temperamentvol', m:'Met veel pit; heftig in je gevoelens, snel enthousiast of boos.', s:'Mijn tante is zo temperamentvol dat ze binnen een minuut kan lachen, huilen én schreeuwen.', syn:['vurig','heetgebakerd']},
@@ -153,21 +173,9 @@ const WEEKS = [
   {w:'wantrouwig', m:'Gelooft anderen niet zomaar; denkt snel dat iemand oneerlijk is.', s:'Sinds hij is opgelicht, is hij erg wantrouwig en gelooft hij niemand meer zomaar.', syn:['argwanend']},
   {w:'wilskrachtig', m:'Zet door, ook als het moeilijk is; geeft niet snel op.', s:'Zij is zo wilskrachtig dat ze na elke tegenslag gewoon opnieuw begint.', syn:['vastberaden','doortastend']},
   {w:'wisselvallig', m:'Steeds veranderend en niet te voorspellen, vooral bij weer en geluk.', s:'Het weer is deze week erg wisselvallig: eerst zon, dan regen, daarna hagel.', syn:['veranderlijk','onbestendig']},
-  {w:'authentiek', m:'Echt en oorspronkelijk; geen kopie of namaak.', s:'Dit is een authentiek Perzisch tapijt, geen kopie uit een fabriek.', syn:['echt','oorspronkelijk']},
-  {w:'beminnelijk', m:'Vriendelijk en aardig, zodat iedereen je graag mag.', s:'Onze nieuwe buurvrouw is zo beminnelijk dat iedereen binnen een dag dol op haar was.', syn:['innemend','vriendelijk']},
-  {w:'dartel', m:'Speels en springerig, vol vrolijke energie, zoals een jong dier.', s:'De lammetjes huppelden dartel door de wei, zomaar, van pure levenslust.', syn:['speels','uitgelaten']},
-  {w:'degelijk', m:'Stevig, goed gemaakt en betrouwbaar; gaat lang mee.', s:'Koop liever een degelijk bed dat tien jaar meegaat dan een goedkoop bed dat na een maand kraakt.', syn:['solide','stevig']},
-  {w:'depressief', m:'Heel somber en neerslachtig, zonder zin in dingen.', s:'Hij voelt zich depressief: alles lijkt grijs en hij heeft nergens zin in.', syn:['somber','neerslachtig']},
-  {w:'elegant', m:'Sierlijk en stijlvol; met smaak en souplesse.', s:'Ze bewoog zo elegant over de dansvloer dat iedereen naar haar bleef kijken.', syn:['sierlijk','chic']},
-  {w:'fier', m:'Trots, met opgeheven hoofd.', s:'Ze stond fier op het podium, trots op alles wat ze had bereikt.', syn:['trots']},
-  {w:'flets', m:'Zonder kleur of kracht; bleek en saai.', s:'Na jaren in de zon waren de gordijnen flets geworden: de felle kleuren waren bijna weg.', syn:['bleek','kleurloos']},
-  {w:'gulzig', m:'Veel te veel willen, vooral eten; nooit genoeg krijgen.', s:'Hij at zo gulzig dat zijn bord leeg was voordat de anderen waren begonnen.', syn:['hebberig','vraatzuchtig']},
-  {w:'imponerend', m:'Maakt grote indruk; indrukwekkend.', s:'Het gebouw is imponerend: iedereen die binnenkomt blijft stilstaan van bewondering.', syn:['indrukwekkend','overweldigend']},
-  {w:'mysterieus', m:'Geheimzinnig; je begrijpt het niet maar wilt het wel weten.', s:'Er klonk \'s nachts een mysterieus geluid op zolder en niemand wist waar het vandaan kwam.', syn:['geheimzinnig','raadselachtig']},
-  {w:'nonchalant', m:'Los en zorgeloos, alsof het je niet kan schelen.', s:'Hij leunde nonchalant tegen de muur, zijn handen in zijn zakken, alsof er niets aan de hand was.', syn:['zorgeloos','achteloos']},
-  {w:'onstuimig', m:'Wild en heftig; vol onrust, bijvoorbeeld bij weer of gevoelens.', s:'De zee was onstuimig: golven sloegen over de pier en de boot schommelde wild.', syn:['woest','stormachtig']},
-  {w:'rusteloos', m:'Kan niet stilzitten; onrustig, zonder rust te vinden.', s:'Hij liep rusteloos heen en weer door de kamer, omdat hij de uitslag niet kon afwachten.', syn:['onrustig','ongedurig']},
-  {w:'sereen', m:'Heel kalm, helder en vredig.', s:'Het meer lag er sereen bij, zonder een rimpeling, in het zachte ochtendlicht.', syn:['kalm','vredig']}
+  {w:'zorgelijk', m:'Het ziet er niet goed uit en maakt je ongerust.', s:'De dokter zei dat de toestand van de patiënt zorgelijk was en dat hij extra in de gaten werd gehouden.', syn:['verontrustend','alarmerend']},
+  {w:'zorgeloos', m:'Zonder last of piekeren; vrij en vrolijk.', s:'De kinderen speelden de hele zomer zorgeloos buiten, zonder te denken aan school of huiswerk.', syn:['onbezorgd','luchtig']},
+  {w:'zwaarmoedig', m:'Somber en neerslachtig; je ziet alles donker in.', s:'Na het slechte nieuws werd hij zwaarmoedig: hij zat dagenlang stil bij het raam en sprak nauwelijks.', syn:['somber','droefgeestig']}
  ]}
 ];
 window.__WEEKS = WEEKS;
@@ -357,6 +365,22 @@ function next(){
   const c=S.cur; if(c.it.type==='listen') speak(BY[c.it.wid].w);
 }
 
+
+/* ===== Aftellen naar een toets ===== */
+const MAANDEN=['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+function deadlineHTML(){
+  const wk=WEEKS.find(w=>w.deadline); if(!wk) return '';
+  const [y,m,d]=wk.deadline.split('-').map(Number), dl=new Date(y,m-1,d), t=new Date(); t.setHours(0,0,0,0);
+  const days=Math.round((dl-t)/DAY), datum=d+' '+MAANDEN[m-1];
+  const ws=ALL.filter(x=>x.week===wk.id), left=ws.filter(x=>level(x.id)<2).length;
+  if(days<0){
+    return `<section class="dl"><b>De toets van ${datum} is geweest</b><p>Blijf herhalen, dan onthoud je de woorden. ${left?`Nog ${left} van de ${ws.length} woorden zijn niet beheerst.`:'Alle woorden zijn beheerst.'}</p><button class="btn pri" data-act="start" data-v="zwak">Herhaal moeilijke woorden</button></section>`;
+  }
+  const kop=days===0?`Vandaag is het zover, ${datum}`:`Nog ${days} ${days===1?'dag':'dagen'} tot ${datum}`;
+  const doel=left?`Nog ${left} van de ${ws.length} woorden te leren. Richtlijn: vandaag ${Math.ceil(left/(days+1))} woorden beheersen.`:`Alle ${ws.length} woorden zijn beheerst. Herhaal ze nog een keer vlak voor de toets.`;
+  return `<section class="dl"><b>${kop}</b><p>${doel}</p><p style="color:var(--muted);margin:0">Tip: leer eerst alles met het leerpad. Herhaal de dag zelf met Moeilijke woorden en de Toets.</p></section>`;
+}
+
 /* ===== Schermen: start ===== */
 function homeHTML(){
   const sc=scopeWords(), mast=sc.filter(x=>level(x.id)===2).length, bezig=sc.filter(x=>level(x.id)===1).length;
@@ -368,6 +392,7 @@ function homeHTML(){
   else h+=`<button class="chip ${store.prefs.scope==='all'?'on':''}" data-act="scope" data-v="all">Alles door elkaar · ${ALL.length}</button>`;
   h+=`</div><div class="prog"><div class="bar"><i style="width:${Math.round(100*mast/sc.length)}%"></i></div><small>${mast} van ${sc.length} beheerst · ${bezig} bezig</small></div>`;
   h+=`<div class="lbl" style="margin-top:16px">Woorden per oefenronde</div><div class="chips" style="margin-bottom:0">${['10','20','all'].map(v=>`<button class="chip ${len===v?'on':''}" data-act="len" data-v="${v}">${v==='all'?'Alle':v}</button>`).join('')}</div></section>`;
+  h+=deadlineHTML();
   h+=`<section class="hero"><h2>Leerpad</h2><p>Stap voor stap, in blokjes van 6 woorden. Eerst leren, dan kiezen, dan spellen, dan zelf gebruiken.</p><div class="steps"><span>Kaarten</span><span>Kiezen</span>${hasTTS?'<span>Luisteren</span>':''}<span>Spellen</span><span>Eigen zin</span></div><button class="btn pri" data-act="start" data-v="leerpad">Start het leerpad ${icon('arrow',20)}</button></section>`;
   MODES.forEach(g=>{ h+=`<h3 class="grp">${esc(g.g)}</h3>`; g.items.forEach(m=>{ h+=`<button class="row c-${m.c}" data-act="start" data-v="${m.id}"><span class="ico">${icon(m.ic,22)}</span><span><b>${esc(m.t)}</b><small>${esc(m.d)}</small></span></button>`; }); });
   return h;
